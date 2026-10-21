@@ -1,0 +1,14 @@
+/* TODO: dale tu propio estilo */
+body {
+  font-family: system-ui, Arial, sans-serif;
+  background: linear-gradient(135deg, #1f5f99, #eb6e4b);
+  min-height: 100vh; margin: 0;
+  display: grid; place-items: center;
+}
+.tarjeta {
+  background: white; border-radius: 16px; padding: 30px 40px; margin: 20px;
+  text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+}
+.temp { font-size: 60px; font-weight: bold; margin: 0; }
+.extras { list-style: none; padding: 0; }
+.pronostico { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }

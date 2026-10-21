@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi App del Tiempo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="tarjeta">
+    <form id="buscador">
+      <input id="entrada" placeholder="Escribe una ciudad…">
+      <button>Buscar</button>
+    </form>
+
+    <h1 id="ciudad">Cargando…</h1>
+    <img id="icono" alt="">
+    <p id="temp" class="temp"></p>
+    <p id="desc"></p>
+
+    <ul class="extras">
+      <li>💧 Humedad: <span id="humedad"></span></li>
+      <li>🌬️ Viento: <span id="viento"></span></li>
+    </ul>
+
+    <!-- EXTRA: pronóstico de 5 días -->
+    <section id="pronostico" class="pronostico"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

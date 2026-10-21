@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyecto App del Tiempo · OpenWeather 2.5</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecera">
+    <p class="centro">IES El Rincón · Proyecto de clase</p>
+    <h1>☁️ Tu propia App del Tiempo</h1>
+    <p class="sub">HTML + CSS + JavaScript consumiendo la API <strong>2.5</strong> de OpenWeather</p>
+    <nav class="menu">
+      <a href="#proyecto">Proyecto</a>
+      <a href="#antes">Antes de empezar</a>
+      <a href="#pasos">Paso a paso</a>
+      <a href="#lab">Laboratorio</a>
+      <a href="#datos">Datos JSON</a>
+      <a href="#rubrica">Evaluación</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1. EL PROYECTO -->
+    <section id="proyecto" class="tarjeta">
+      <h2>1. El proyecto</h2>
+      <p>Vais a construir una <strong>web del tiempo</strong> que pida datos reales a internet. La web le pregunta a un servidor (OpenWeather) "¿qué tiempo hace en Las Palmas?" y el servidor contesta con un <strong>JSON</strong>. Vuestro trabajo es pedir bien los datos y mostrarlos bonitos.</p>
+      <div class="rejilla">
+        <div class="mini"><span>🎯</span><strong>Mínimo obligatorio</strong><p>Buscador de ciudad, temperatura en °C, descripción en español, icono, humedad y viento.</p></div>
+        <div class="mini"><span>🚀</span><strong>Para subir nota</strong><p>Pronóstico de 5 días, mensajes de error y tu ubicación con el GPS del navegador.</p></div>
+        <div class="mini"><span>📦</span><strong>Entrega</strong><p>Carpeta con <code>index.html</code>, <code>style.css</code> y <code>script.js</code>, subida a GitHub y publicada en Netlify.</p></div>
+      </div>
+    </section>
+
+    <!-- 2. ANTES DE EMPEZAR -->
+    <section id="antes" class="tarjeta">
+      <h2>2. Antes de empezar: tu API key</h2>
+      <ol class="lista-pasos">
+        <li>Crea una cuenta gratis en <a href="https://openweathermap.org" target="_blank" rel="noopener">openweathermap.org</a>.</li>
+        <li>Entra en tu usuario → <strong>My API keys</strong> y copia la clave (32 letras y números).</li>
+        <li><strong>Paciencia:</strong> una clave nueva puede tardar hasta un par de horas en activarse. Mientras tanto la API responde <code>401 Invalid API key</code>.</li>
+        <li>Usaremos la versión <strong>2.5</strong> (gratuita). La documentación oficial: <a href="https://openweathermap.org/current" target="_blank" rel="noopener">Current weather</a> y <a href="https://openweathermap.org/forecast5" target="_blank" rel="noopener">5 day forecast</a>.</li>
+      </ol>
+
+      <h3>Así es una petición a la API</h3>
+      <div class="url-anatomia">
+        <span class="p1" title="Servidor">https://api.openweathermap.org</span><span class="p2" title="Versión y recurso">/data/2.5/weather</span><span class="p3" title="Parámetros">?q=Las Palmas&amp;units=metric&amp;lang=es&amp;appid=TU_API_KEY</span>
+      </div>
+      <ul class="leyenda">
+        <li><i class="p1"></i><strong>Servidor:</strong> a quién le preguntamos.</li>
+        <li><i class="p2"></i><strong>Ruta:</strong> versión <code>2.5</code> y qué queremos (<code>weather</code> = tiempo actual, <code>forecast</code> = 5 días).</li>
+        <li><i class="p3"></i><strong>Parámetros:</strong> después de <code>?</code> y separados por <code>&amp;</code>: ciudad, unidades (°C), idioma y tu clave.</li>
+      </ul>
+      <p class="truco">💡 Truco: pega esa URL con tu clave en la barra del navegador y verás el JSON directamente.</p>
+    </section>
+
+    <!-- 3. PASO A PASO -->
+    <section id="pasos">
+      <h2 class="titulo-seccion">3. Paso a paso</h2>
+      <p class="intro-seccion">Haz los pasos en orden. Cada uno añade algo al anterior. Abre la consola con <kbd>F12</kbd> → <strong>Console</strong> para ver lo que pasa.</p>
+      <div id="lista-pasos"></div>
+    </section>
+
+    <!-- 4. LABORATORIO -->
+    <section id="lab" class="tarjeta">
+      <h2>4. Laboratorio: prueba la API aquí</h2>
+      <p>Pon tu API key y una ciudad. Verás la petición, la tarjeta del tiempo y el JSON que devuelve el servidor.</p>
+      <form id="lab-form" class="lab-form">
+        <input id="lab-key" type="text" placeholder="Tu API key" autocomplete="off" spellcheck="false">
+        <input id="lab-ciudad" type="text" value="Las Palmas de Gran Canaria" placeholder="Ciudad">
+        <select id="lab-tipo">
+          <option value="weather">Tiempo actual (weather)</option>
+          <option value="forecast">Pronóstico 5 días (forecast)</option>
+        </select>
+        <button type="submit">Consultar</button>
+      </form>
+      <p id="lab-url" class="lab-url"></p>
+      <div id="lab-resultado" class="lab-resultado"></div>
+      <details id="lab-json-box" class="lab-json oculto" open>
+        <summary>Ver JSON de respuesta</summary>
+        <pre><code id="lab-json"></code></pre>
+      </details>
+    </section>
+
+    <!-- 5. DATOS -->
+    <section id="datos" class="tarjeta">
+      <h2>5. ¿Qué hay dentro del JSON?</h2>
+      <p>Para llegar a un dato se usan <strong>puntos</strong> para los objetos y <strong>[0]</strong> para las listas.</p>
+      <div class="tabla-scroll">
+        <table>
+          <thead><tr><th>Quiero…</th><th>Lo escribo así</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Nombre de la ciudad</td><td><code>datos.name</code></td><td>Las Palmas de Gran Canaria</td></tr>
+            <tr><td>País</td><td><code>datos.sys.country</code></td><td>ES</td></tr>
+            <tr><td>Temperatura</td><td><code>datos.main.temp</code></td><td>23.4</td></tr>
+            <tr><td>Sensación térmica</td><td><code>datos.main.feels_like</code></td><td>23.8</td></tr>
+            <tr><td>Mínima / máxima</td><td><code>datos.main.temp_min</code> / <code>temp_max</code></td><td>22.1 / 24.0</td></tr>
+            <tr><td>Humedad (%)</td><td><code>datos.main.humidity</code></td><td>68</td></tr>
+            <tr><td>Descripción</td><td><code>datos.weather[0].description</code></td><td>nubes dispersas</td></tr>
+            <tr><td>Código del icono</td><td><code>datos.weather[0].icon</code></td><td>03d</td></tr>
+            <tr><td>Viento (m/s)</td><td><code>datos.wind.speed</code></td><td>6.2</td></tr>
+            <tr><td>Amanecer (segundos Unix)</td><td><code>datos.sys.sunrise</code></td><td>1792998000</td></tr>
+            <tr><td>Coordenadas</td><td><code>datos.coord.lat</code> / <code>lon</code></td><td>28.1 / -15.41</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. EVALUACIÓN -->
+    <section id="rubrica" class="tarjeta">
+      <h2>6. Evaluación</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead><tr><th>Criterio</th><th>Puntos</th></tr></thead>
+          <tbody>
+            <tr><td>Petición correcta a la API 2.5 (URL con <code>units</code>, <code>lang</code> y <code>appid</code>)</td><td>2</td></tr>
+            <tr><td>Buscador de ciudad funcionando</td><td>2</td></tr>
+            <tr><td>Muestra temperatura, descripción, icono, humedad y viento</td><td>2</td></tr>
+            <tr><td>Control de errores (ciudad no encontrada, sin conexión)</td><td>1</td></tr>
+            <tr><td>Diseño CSS cuidado y adaptado al móvil</td><td>1</td></tr>
+            <tr><td>Extra: pronóstico 5 días o geolocalización</td><td>1</td></tr>
+            <tr><td>Publicado en Netlify + código en GitHub</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 7. PLANTILLA -->
+    <section class="descarga">
+      <div>
+        <strong>📁 Plantilla para empezar</strong>
+        <span>index.html, style.css y script.js con los huecos <code>TODO</code> para rellenar.</span>
+      </div>
+      <a class="btn" href="plantilla.zip" download>⬇ Descargar plantilla</a>
+    </section>
+  </main>
+
+  <footer>Adib Guardiola Mouhaffel · Proyecto OpenWeather · Datos de <a href="https://openweathermap.org" target="_blank" rel="noopener">OpenWeather</a></footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
